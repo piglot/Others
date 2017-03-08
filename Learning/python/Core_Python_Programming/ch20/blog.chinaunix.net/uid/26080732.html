@@ -1,0 +1,1260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script>
+var ua = navigator.userAgent.toLowerCase();
+if(ua.match(/MicroMessenger/i)=="micromessenger") {
+    location.href='http://blog.chinaunix.net/article.php?url='+ window.location.href;
+}
+</script>
+        <style>
+    .Blog_nav1_2 a em { display:inline-block; width:16px; height:13px; background:url(/image/v.jpg) no-repeat; overflow:hidden;}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/css/default/style.css" />
+<link rel="stylesheet" type="text/css" href="/css/qqface/qqFace.css" />
+<link rel="stylesheet" type="text/css" href="/css/asyncbox/skins/Chrome/asyncbox.css" />
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.qqFace.js"></script>
+<script type="text/javascript" src="/js/AsyncBox.v1.4.5.js"></script>
+<title>2023821022-ChinaUnix博客</title>
+<meta name="description" content='2023821022-ChinaUnix博客'/>
+<script type='text/javascript' src='http://168.it168.com/a/h600.js'></script>
+
+<script type="text/javascript">
+if(/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))){
+	try{
+		if(!/iPad/i.test(navigator.userAgent)){
+			var oldurl=window.location.href;
+			var wapUrl= oldurl.replace('blog.chinaunix.net', "m.blog.chinaunix.net") ;
+			window.location.href = wapUrl;
+		}
+	}catch(e){}
+}
+</script>
+
+
+<script language="javascript">
+//用户是否在线
+var isOnLine = '';
+$(document).ready(function(){
+	var blog = {'name': '', 'name_url': '', 'brief': ''};
+	//消息通知显示和隐藏控制
+	$('#show_message_slide_button').hover(
+		function(){
+			$('#message_slide_div').slideDown(100);											   
+		},
+		function(){
+			
+		}
+	);
+
+	$('#message_slide_div').hover(
+		function(){
+			
+		},
+		function(){
+			$('#message_slide_div').slideUp(100);
+		}
+	);
+	
+	//编辑博客名
+	$('#editbna').click(function(){
+		blog.name = $('#bnaspan a').text();
+		var val = '<input id="bnainput" type="text" style="float:left" value="" rel="' +$(this).attr('rel') + '" /><input id="bnasub" type="button" style="float:left" class="btn1"><input id="bnacanl" type="button" style="float:left" class="btn2"><div class="clear"></div>';
+		$('#bnaspan').html(val);
+		$('#bnainput').val(blog.name);
+		$(this).parent().hide();
+	});
+	
+	$('#bnasub').live('click', function(){
+	    var rel = eval('({' + $('#bnainput').attr('rel') + '})');
+		var name = $('#bnainput').val();
+		if(name != blog.name){
+	        $.ajax({
+			    type: "POST",
+			    url: rel.url,	
+			    data: {
+				    'name' : name
+			    },
+			    success:function(data){
+				    if(data == 0){
+						$('#bnaspan').html(blog.name);
+						$('#bnaspan').html('<a href="' + rel.href + '">' + $('#bnaspan').html() + '</a>');
+				    }else if(data == -1){
+                                        showErrorMsg('名称中含有违禁词，请从新编辑!', '消息提示');
+                                    }else{
+						$('#bnaspan').html(data);
+						$('#bnaspan').html('<a href="' + rel.href + '">' + $('#bnaspan').html() + '</a>');
+				    }
+					$('#editbna').parent().show();
+				}
+			});
+		}else{
+		    $('#bnaspan').text(blog.name).html();
+			$('#bnaspan').html('<a href="' + rel.href + '">' + $('#bnaspan').html() + '</a>');
+			$('#editbna').parent().show();
+		}
+	});
+	
+	$('#bnacanl').live('click', function(){
+		var rel = eval('({' + $('#bnainput').attr('rel') + '})');
+		$('#bnaspan').html('<a href="' + rel.href + '">' + blog.name + '</a>');
+		$('#editbna').parent().show();
+	});
+	
+	//编辑签名
+	$('#editbrief').click(function(){
+	    blog.brief = $('#briefem').text();
+		var val = '<input id="brfinput" type="text" style="float:left" value="" rel="' + $(this).attr('rel') + '" /><input id="brfsub" style="float:left"  type="button" class="btn1"><input style="float:left"  id="brfcanl" type="button" class="btn2"><div class="clear"></div>';
+		$('#briefem').html(val);
+		$('#brfinput').val(blog.brief);
+		$(this).parent().hide();
+	});
+	
+	$('#brfsub').live('click', function(){
+	    var url = $('#brfinput').attr('rel');
+		var brief = $('#brfinput').val();
+		if(brief != blog.brief){
+	        $.ajax({
+			    type: "POST",
+			    url: url,	
+			    data: {
+				    'brief' : brief
+			    },
+			    success:function(data){
+				    if(data == 0){
+				        $('#briefem').html(blog.brief);
+				    }else if(data == -1){
+                                        showErrorMsg('签名中含有违禁词，请从新编辑!', '消息提示');
+                                    }else{
+						$('#briefem').html(data);
+				    }
+					$('#editbrief').parent().show();
+				}
+			});
+		}else{
+		    $('#briefem').text(blog.brief).html();
+			$('#editbrief').parent().show();
+		}
+	});
+	
+	$('#brfcanl').live('click', function(){
+		$('#briefem').html(blog.brief);
+		$('#editbrief').parent().show();
+	});
+
+});
+</script>
+</head>
+<body>
+<div class="box">
+  <!-- 一级导航 -->
+  <div class="Blog_nav1">
+    <div class="Blog_nav1_2"><a href="/"><img src="/image/default/1.png"></a><a href="http://www.chinaunix.net" class="Blog_a1">Chinaunix首页</a> | <a href="http://bbs.chinaunix.net" target="_blank">论坛</a> | <a href="http://u.it168.com/vip/"><font color="red">认证专区</font></a> | <a href="http://blog.chinaunix.net" target="_blank">博客</a><span class="Blog_span1"></span>
+              <a href="/site/login.html" class="Blog_a1" onclick="linkto()">登录</a> | <a href="http://u.it168.com/Register?webid=5&returnUrl=http%3A%2F%2Fblog.chinaunix.net%2Fuid%2F26080732.html" class="Blog_a1">注册</a>
+          </div>
+	<!--自动提示层-->
+	<style>
+	.bor13221{border:1px #bbb solid;width:206px;position:absolute;top:34px;left:0;background:#fff; z-index:9999;display:none}
+	.bor13221 li{height:26px;line-height:26px;padding-left:6px;color:#555;font-size:14px;cursor:pointer;}
+	.here{background:#f3f3f3;}
+    </style>
+
+	<!--自动提示层-->
+    <div class="Blog_nav1_3" style="position:relative; z-index:9999;">
+	 <div class="bor13221">
+      <ul>
+      </ul>
+    </div>
+	  <form action='/site/search.html' method='post'>
+		<input type="text"  autocomplete="off"  class="Blog_txt1" id='search_input_id' name='keywords'>
+		<select class="Bolg_sel1" name='type' id='search_type_blog'>
+		  <option value='blog'>博文</option>
+		  <option value='author'>博主</option>
+		</select>
+		<input type="submit" value='' name='submit' class="Blog_btn1">
+	 </form>
+    </div>
+    <div class="clear"></div>
+    <div class="Blog_nav1_layer1" id="message_slide_div" style="display:none;">
+	    <ul>
+	    	<li><a href="/message/private.html">私人消息()</a></li>
+	    	<li><a href="/message/system.html">系统消息()</a></li>
+	    	<li><a href="/member/request.html">好友请求()</a></li>
+	    	<li><a href="/member/notification.html">通知管理()</a></li>
+	    </ul>
+    </div>
+  </div>
+   <script type="text/javascript">
+  	$(function(){
+		//点击添加进文本框
+		$(".bor13221 li").live( 'click' , function(e){
+			if ( e && e.stopPropagation )
+			{
+				//因此它支持W3C的stopPropagation()方法
+				e.stopPropagation();
+			}
+			else
+			{
+				//否则，我们需要使用IE的方式来取消事件冒泡
+				window.event.cancelBubble = true; 
+			}
+			$('#search_input_id').val($(this).text());
+			$(".bor13221 ul").html('');
+			$(".bor13221").hide();
+		});
+		$(".bor13221 ul li").live({
+			mouseenter:
+			function()
+			{
+				$(".bor13221 ul li").removeClass("here");
+				$(this).addClass('here');
+			},
+			mouseleave:
+			function()
+			{
+				$(".bor13221 ul li").removeClass("here");
+				$(this).removeClass('here');
+			}
+		});
+		//自动提示
+		$('#search_input_id').keyup(function(event){
+			//取消博主的提示
+			var search_type_blog = $('#search_type_blog').val();
+			if(search_type_blog == 'author') return false;
+
+			var key = $(this).val();
+			//获取键值
+			var keycode = event.which; //38 上 40 下
+			var count = $('.bor13221 ul li').length;
+			if(key != '' && keycode != 38 && keycode != 40)
+			{
+				$.getJSON("http://api.sou.it168.com/autoWenKuCloud?jsoncallback=?",{"ty":"json","offset":"0","limit":"10","q":key}, function(result)
+					{
+						var arr = result.data;
+
+						var html ='';
+						for (i=0;i<arr.length ;i++ )   
+						{   
+							html += '<li>'+arr[i]+'</li>';
+						} 
+						
+						$('.bor13221 ul').html(html);
+						(arr.length > 1) ?  $(".bor13221").show() : $(".bor13221").hide();
+					}
+				);
+			}
+			else if(keycode == 38)
+			{
+				if(count > 0)
+				{
+					//遍历li
+					var curr_li_num;
+					$('.bor13221 ul li').each(function(index , dom){
+						if($(dom).attr('class') == 'here')
+						{
+							curr_li_num = index;
+							return false;
+						}
+					}); 
+					var next_li_num;
+					if(typeof(curr_li_num) == 'undefined')
+					{
+						next_li_num = count - 1;
+					}
+					else
+					{
+						if(curr_li_num == 0)
+						{
+							next_li_num = count - 1;
+						}
+						else
+						{
+							next_li_num = curr_li_num - 1;
+						}
+					}
+					$(".bor13221 ul li").removeClass("here");
+					$(".bor13221 ul li:eq(" + next_li_num + ")").addClass("here");
+					$('#search_input_id').val($(".bor13221 ul li:eq(" + next_li_num + ")").text());
+				}
+			}
+			else if(keycode == 40)
+			{
+				if(count > 0)
+				{
+					//遍历li
+					var curr_li_num;
+					$('.bor13221 ul li').each(function(index , dom){
+						if($(dom).attr('class') == 'here')
+						{
+							curr_li_num = index;
+							return false;
+						}
+					}); 
+					var next_li_num;
+					if(typeof(curr_li_num) == 'undefined')
+					{
+						next_li_num = 0;
+					}
+					else
+					{
+						if(curr_li_num == count - 1)
+						{
+							next_li_num = 0;
+						}
+						else
+						{
+							next_li_num = curr_li_num + 1;
+						}
+					}
+					$(".bor13221 ul li").removeClass("here");
+					$(".bor13221 ul li:eq(" + next_li_num + ")").addClass("here");
+					$('#search_input_id').val($(".bor13221 ul li:eq(" + next_li_num + ")").text());
+				}
+			}
+		});
+		$(document).click(function(e){
+			$(".bor13221").hide();
+		});
+
+	});
+  </script>
+  <!-- 头 -->
+  <!-- 推荐博客-->
+  <div class="Blog_header1">
+	    <div class="Blog_header1_1">
+      <p class="Blog_p1" ><em><a href="/uid/26080732.html">2023821022的ChinaUnix博客</a></em>      <p class="Blog_p2" style="color:#125A94">暂无签名</p>
+    </div>
+        <div class="Blog_header1_2" id="hide_div1">
+    	<span class="Blog_span3"></span>
+    	<div class="float_div1" style="white-space:nowrap;" onmouseover="javascript:isMove=false" onmouseout="javascript:isMove=true">
+	    <ul id="noticev2">  
+		    		    <li><a href="http://blog.chinaunix.net/uid-30204791-id-5705047.html" target="_blank">2016中国数据库技术大会门票申请 </a></li>
+		    		    <li><a href="http://blog.chinaunix.net/uid-24789255-id-5568211.html" target="_blank">新注册用户开通“博客写作”功能，需要申请与实名认证 </a></li>
+		    		    <li><a href="http://blog.chinaunix.net/uid-10718265-id-5141960.html" target="_blank"> 互动：数据分析与云计算应用案例 （征集|参与）</a></li>
+		    	    </ul>
+	    </div>
+    </div>
+            <div class="Blog_header1_3"><a href="/uid/26080732.html" class="Blog_here1">首页</a>　| 　<a href="/uid/26080732/abstract/1.html">博文目录</a>　| 　<a href="/member/profile/uid/26080732.html">关于我</a></div>
+  </div>
+    
+  <!-- 内容部分 -->
+  	<style type="text/css">
+.tools {
+	width:510px;
+	display:inline-block;
+	background:#ebeff8;
+	border:1px #d4d7e6 solid;
+	padding:5px;
+}
+.faceBtn {
+	color:#656565;
+	font-size:12px;
+	width:80px;
+	height:25px;
+	line-height:25px;
+	padding-left:25px;
+	background:url('/image/face.gif') 4px 4px no-repeat;
+	cursor:pointer;
+}
+.Blog_p5 em{ display:inline-block; width:16px; height:13px; background:url(/image/v.jpg) no-repeat; overflow:hidden;}
+</style>
+<div class="Blog_contain"> 
+    <!-- 左 -->
+    <style>
+    .Blog_left1_1 p a em { display:inline-block; width:16px; height:13px; background:url(/image/v.jpg) no-repeat; overflow:hidden;}
+</style>
+
+<script language="javascript">
+$(document).ready(function(){
+	$('#ConcernBtn').bind('click',function(){
+			var cuid = '26080732';
+			var url =  '/member/concern.html';
+			var type = $(this).attr('rel');
+		
+			if(type == 'addConcern'){
+				$.ajax({
+					type : 'get',
+					url  : url,
+					data : {'op' : 'ajaxadd' , 'cuid' : cuid, 'random' : Math.random()},
+					success : function(msg){	
+					   if(msg == -1){
+						   showErrorMsg('参数错误！');
+					   } else if (msg == 0){
+						   showErrorMsg('关注失败，没有该用户！');
+					   } else if (msg == 1){
+						   showErrorMsg('关注失败，您已经关注了该用户！');
+					   } else if (msg == 2){
+						   $('#ConcernBtn').val('已关注');
+						   $('#ConcernBtn').attr('rel','delConcern');
+						   showSucceedMsg('关注成功!');
+					   } else if (msg == 3){
+						   showErrorMsg('未知错误');
+					   }
+					}
+				});	
+			} else if ( type == 'delConcern'){
+				$.ajax({
+					type : 'get',
+					url  : url,
+					data : {'op' : 'ajaxdel' , 'cuid' : cuid, 'random' : Math.random()},
+					success : function(msg){
+					   if(msg == 0){
+						   showErrorMsg('参数错误！','消息提示');
+					   } else if (msg == 1){
+						   showErrorMsg('操作失败，请尝试刷新页面重试！','消息提示');
+					   } else if (msg == 2){
+						   $('#ConcernBtn').val('加关注');
+						   $('#ConcernBtn').attr('rel','addConcern');
+						   showSucceedMsg('成功取消关注！','消息提示');
+					   } else if (msg == 3){
+						   showErrorMsg('未知错误！','消息提示'); 
+					   }
+					}
+				});	
+			}
+	});					   
+});
+
+//加好友
+function addFriend(fuid, url){
+	if(fuid == '' || fuid.length == 0){
+		showErrorMsg('缺少参数！','信息提示');
+		return false;
+	}
+	$.ajax({
+		   type : 'get',
+		   url : url,
+		   data : {'op' : 'add', 'fuid' : fuid , 'random' : Math.random()},
+		   success : function(msg){
+				if(msg == -1){
+					showErrorMsg('参数错误！','消息提示');
+				} else if (msg == -2){
+					showErrorMsg('添加好友失败,没有该用户的信息！','消息提示');
+				} else if (msg == -3){
+					showErrorMsg('添加好友失败,你不能添加自己为好友！','消息提示');
+				} else if (msg == -4){
+					showErrorMsg('添加好友未知错误,该错误已被记录！','消息提示');
+				} else if (msg == -5){
+					showErrorMsg('添加好友失败,你之前已经发送过好友请求,请耐心等待对方同意申请！','消息提示');
+				} else if (msg == -6){
+					showErrorMsg('添加好友失败,你们已经是好友了！','消息提示');
+				} else {
+					$.cover(true);
+					asyncbox.open({
+						id : 'addFriend',
+						title : '添加好友',
+						url : url,
+						data : {'op' : 'add', 'fuid' : fuid , 'random' : Math.random()},
+						width : 490,
+						height : 180,
+						scroll : 'no',
+						callback : function(action) {
+							if (action == 'close'){
+								$.cover(false);
+							}	
+						}
+					});	
+				}
+		   }
+	});	
+	
+}
+
+//发送短消息
+function postMessage(msguid, url){
+	if(msguid == '' || msguid.length == 0){
+		showErrorMsg('缺少参数！','信息提示');
+		return false;
+	}
+	
+	$.ajax({
+		   type : 'post',
+		   url : url,
+		   data : {'op' : 'ajaxpost', 'msguid' : msguid , 'random' : Math.random()},
+		   success : function(msg){
+				if(msg == -1){
+					showErrorMsg('发送失败，缺少收件人对象！','消息提示');
+				} else if(msg == -2){
+					showErrorMsg('发送失败，自己不能给自己发送短消息！','消息提示');
+				} else {
+					$.cover(true);
+					asyncbox.open({
+						id : 'postMessage',
+						title : '发送短消息',
+						url : url,
+						data : {'op' : 'ajaxpost', 'msguid' : msguid , 'random' : Math.random()},
+						width : 510,
+						height : 255,
+						scroll : 'no',
+						callback : function(action) {
+							if (action == 'close'){
+								$.cover(false);
+							}	
+						}
+					});	
+				}
+		   }
+	});	
+}
+
+</script>
+<div class="Blog_left">
+      <div class="Blog_left1 Blog_bg1">
+        <div class="Blog_left1_1">
+			<!-- 专家博客-->
+			<a href="/uid/26080732.html">                            <img src="http://passport.ixpub.net/avatar.php?uid=26080732&size=middle" />
+                        </a>
+                        <p><a href="/uid/26080732.html">2023821022</a></p>
+                     </div>
+        <ul class="Blog_ul1 Blog_noline1">
+          <li>博客访问： 615 </li>
+          <li>博文数量： 0 </li>
+          <li>博客积分： 26 </li>
+          <!--<li>专家积分： 180</li>-->
+          <li>博客等级： 民兵 </li>
+		  <li>技术积分： 10 </li>
+          <li>用  户  组：  普通用户</li>
+          <li>注册时间： 2012-01-08 13:57 </li>
+                            </ul>  
+
+
+        
+                <div class="HT_line3 HT_line3_1"></div>
+        <ul class="Blog_ul2">
+          <li><input type="button" value="加关注" id="ConcernBtn" onclick="showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html')"></li>
+          <li><input type="button" value="短消息" id="postMessageBtn" onclick="showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html')"></li>
+          <li><input type="button" value="论坛" onclick="location.href='http://bbs.chinaunix.net'"></li>
+          <li><input type="button" value="加好友" id="addFriendBtn" onclick="showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html')"></li>
+        </ul>
+              </div>
+        
+      	        	  	        <div class="Blog_left2 Blog_bg1">
+        <div class="Blog_tit1">我的朋友</div>
+        <ul class="Blog_ul4">
+                    <li><a href="/uid/20642150.html">              <img src="http://passport.ixpub.net/avatar.php?uid=20642150&size=small" />
+              </a>
+            <p><a href="/uid/20642150.html" title="itlinux">itlinux</a></p>
+          </li>
+                  </ul>
+      </div>
+	  	        <div class="Blog_left2 Blog_bg1">
+        <div class="Blog_tit1">最近访客</div>
+        <ul class="Blog_ul4">
+                  </ul>
+      </div>
+	           <div  class="Blog_left2 Blog_left3 Blog_bg1">
+        <div class="Blog_tit1">微信关注</div>
+        <div class="">
+                <div class="" style="float:left; margin-right:5px;">
+                 <img width="90" height="90" alt="" src="/image/IT168.jpg"/>
+                 </div><br>
+                <div class="" style="margin-top:10px;">
+                 <p class="">
+                         IT168企业级官微
+                </p>
+                 <p class="">
+
+                 <br></br>
+                 微信号：IT168qiye
+                </p>
+                </div>
+        </div>
+<hr size="1" style="clear:both;">
+        <div class="" style="clear:both;">
+                <div class="" style="float:left; margin-right:5px;">
+                 <img width="90" height="90" alt="" src="/image/itpub.jpg"/>
+                 </div><br>
+                <div class="" style="margin-top:10px;">
+                 <p class="">
+                         系统架构师大会
+                </p>
+                 <p class="">
+
+                 <br></br>
+                 微信号：SACC2013
+                </p>
+                </div>
+        </div>
+
+</div>
+      <div class="Blog_left2 Blog_bg1">
+        <div class="Blog_tit1">订阅</div>
+        <ul class="Blog_ul5">
+          <li><a href="/blog/rss/uid/26080732.html" class="Blog_a4"></a></li>
+          <li><a href="http://www.google.com/ig/add?feedurl=http%3A%2F%2Fblog.chinaunix.net%2Fuid%2F26080732.html" class="Blog_a5"></a></li>
+        </ul>
+      </div>
+      <div class="Blog_left2 Blog_left3 Blog_bg1">
+        <div class="Blog_tit1">推荐博文</div>
+        <ul class="Blog_ul6">
+				  			<li>·<a href="/uid-25944391-id-5745936.html" title="Linux curl命令参数详解">Linux curl命令参数详解...</a></li>
+		  			<li>·<a href="/uid-31008720-id-5745934.html" title="Linux Samba服务器搭建">Linux Samba服务器搭建</a></li>
+		  			<li>·<a href="/uid-31008720-id-5745926.html" title="Linux NFS服务器搭建">Linux NFS服务器搭建</a></li>
+		  			<li>·<a href="/uid-24517549-id-5733806.html" title="Linux的Proc文件系统详解">Linux的Proc文件系统详解...</a></li>
+		  			<li>·<a href="/uid-20332519-id-5733546.html" title="Bootstap datetimepicker报错TypeError: intermediate value">Bootstap datetimepicker报错...</a></li>
+		  						  			<li>·<a href="http://blog.itpub.net/7192724/viewspace-2120330" title="一个用户创建引发的权限控制问题">一个用户创建引发的权限控制...</a></li>
+		  			<li>·<a href="http://blog.itpub.net/28539951/viewspace-2120248" title="oracle分区表在线重定义字段not null问题">oracle分区表在线重定义字段n...</a></li>
+		  			<li>·<a href="http://blog.itpub.net/28602568/viewspace-2120239" title="Redis 基本搭建">Redis 基本搭建</a></li>
+		  			<li>·<a href="http://blog.itpub.net/22664653/viewspace-2120067" title=" 【Python】 模块之logging"> 【Python】 模块之logging...</a></li>
+		  			<li>·<a href="http://blog.itpub.net/27000195/viewspace-2119967" title="MySQL之test数据库默认权限">MySQL之test数据库默认权限...</a></li>
+		  				
+        </ul>
+      </div>
+      <div class="Blog_left2 Blog_left3 Blog_bg1">
+        <div class="Blog_tit1">热词专题</div>
+        <ul class="Blog_ul6">
+                        <li >·<a href="/zt/1009/androidhunhu_1009617.shtml" target='blank' title='Android系统的进程分类'>Android系统的进程分类...</a></li>
+                        <li >·<a href="/zt/1011/linuxhong_1011570.shtml" target='blank' title='linux开机启动流程'>linux开机启动流程</a></li>
+                        <li >·<a href="/zt/1011/androidsqlite_1011197.shtml" target='blank' title='Android的HAL层的实现实例'>Android的HAL层的实现实例...</a></li>
+                        <li >·<a href="/zt/1011/linuxviha_1011884.shtml" target='blank' title='（DT系列五）Linux kernel 是怎么将 devicetree中的内容生成plateform_device'>（DT系列五）Linux kernel 是...</a></li>
+                        <li class="no_line1">·<a href="/zt/1012/linuxcpha_1012230.shtml" target='blank' title='Linux 复制、移动覆盖文件不提示'>Linux 复制、移动覆盖文件不...</a></li>
+          <!--              <li>·<a href="http://www.dataguru.cn/zhuanti/hadoop220peizhi.shtml" target='blank' title='配置hadoop2.2.0格式化namenode问题'></a></li>
+              <li>·<a href="http://www.dataguru.cn/zhuanti/hadoopshouce.shtml" target='blank' title='hadoop2.2.0安装手册'></a></li>-->
+        </ul>
+      </div>
+	  
+
+	</div>
+<script language="javascript">
+$(document).ready(function(){
+    /*目录树JS效果*/
+	$('#blogCla li > span').click(function(){
+		var cla = $(this).attr('class');
+		if(cla == 'Blog_jia1'){
+			//$('#blogCla li > span').removeClass('Blog_jian1').addClass('Blog_jia1');
+			//$('#blogCla li > .zk').css('display', 'none');
+				
+			$(this).removeClass('Blog_jia1').addClass('Blog_jian1');
+            $(this).parent().children('.zk').css('display', 'block');
+		}else{
+			$(this).removeClass('Blog_jian1').addClass('Blog_jia1');
+            $(this).parent().children('.zk').css('display', 'none');
+		}
+	});
+		
+	$('#blogdtr > p > span').click(function(){
+		var cla = $(this).attr('class');
+		if(cla == 'Blog_jia1'){
+			//$('#blogdtr > .Blog_p4 > span').removeClass('Blog_jian1').addClass('Blog_jia1');
+			//$('#blogdtr ul').css('display', 'none');
+				
+			$(this).removeClass('Blog_jia1').addClass('Blog_jian1');
+            $(this).parent().next().css('display', 'block');
+		}else{
+			$(this).removeClass('Blog_jian1').addClass('Blog_jia1');
+            $(this).parent().next().css('display', 'none');
+		}
+	});
+});
+</script>    <!-- 右 -->
+    <div class="Blog_right1">
+    		        &nbsp;&nbsp;&nbsp;&nbsp; 该分类下暂时没有公开的博文，给他留言提醒一下吧。
+	              <div class="Blog_right1_7" id="replyList">
+        <div class="Blog_tit3">给主人留下些什么吧！~~</div>
+                <div class="Blog_right1_10">
+            <div class="Blog_tit3">留言热议</div>
+                        <div class="Blog_right1_8">
+                <div class="nologin_con1"> 请登录后留言。
+                    <p><a href="/site/login.html" onclick="linkto()">登录</a> <a href="http://sso.chinaunix.net/Register?return_url=http%3A%2F%2Ft.cublog.com%2F">注册</a></p>
+                </div>
+            </div>
+                   </div>
+      </div>
+    </div>
+  </div>
+<input type='hidden' id='report_url' value='/blog/ViewReport.html' />
+<script language="javascript">
+/*
+var Util = {};
+Util.calWbText = function (text, max){
+    if(max === undefined)
+        max = 140;
+    var cLen=0;
+    var matcher = text.match(/[^\x00-\xff]/g),
+        wlen  = (matcher && matcher.length) || 0;
+    //匹配url链接正则 http://***
+    var pattern = /http:\/\/([\w-]+\.)+[\w-]+(\/*[\w-\.\/\?%&=][^\s^\u4e00-\u9fa5]*)?/gi;
+    //匹配的数据存入数组
+    var arrPt = new Array();
+    var i = 0;
+    while((result = pattern.exec(text)) != null){
+        arrPt[i] = result[0];
+        i++;
+    }
+    //替换掉原文本中的链接
+    for(var j = 0;j<arrPt.length;j++){
+        text = text.replace(arrPt[j],"");
+    }
+    //减掉链接所占的长度
+    return Math.floor((max*2 - text.length - wlen)/2 - 12*i);
+};
+*/
+//测试字符串的长度 一个汉字算2个字节
+function mb_strlen(str)
+{
+	var len=str.length;
+	var totalCount=0;
+	for(var i=0;i<len;i++)
+	{
+		var c = str.charCodeAt(i);
+		if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
+			totalCount++;
+		}else{
+			totalCount+=2;
+		}
+	}
+	return totalCount;
+}
+//举报弹出层
+function showJuBao(url, cid){
+		$.cover(false);
+		asyncbox.open({
+			id  : 'report_thickbox',
+			title : '举报违规',
+			url : url,
+			data : {'cid' : cid,'idtype' : 3,'random' : Math.random(),'blogurl' : window.location.href},
+			width : 378,
+			height : 240,
+			scroll : 'no',
+			callback : function(action){
+				if(action == 'close'){
+					$.cover(false);
+				}
+			}
+		});	
+}
+
+    $(document).ready(function(){
+        $('.span_text1 a, .div1 a').live({
+			click:function(){
+				if(isOnLine == '' )
+				{
+					//showErrorMsg('登录之后才能进行此操作' , '消息提示');
+					showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html');
+					return false;
+				}
+				var index = $(this).index();
+				var rel = $(this).attr('rel');
+				switch(index){
+				    case 0:
+					    $('#replyList > .Blog_right1_8 .Blog_right1_9').remove();
+                                            			            var tpl = '<div class="Blog_right1_9" id="rform">';
+			                tpl += '<div class="div2">';
+				            tpl += '<textarea name="rmsg" id="rmsg" cols="" rows="" class="Blog_ar1_1"></textarea>';
+				            tpl += '</div>';
+				            tpl += '<div class="div3">';
+				            tpl += '<div class="div3_2"></em><button type="button" id="ajsub" class="Blog_a11" rel="' + rel + '"></button><button class="Blog_a12" id="ajcal"></button></div>';
+				            tpl += '<div class="div3_1"><a href="#" class="face" onclick="return false;"><span></span>表情</a></div>';
+				            tpl += '<div class="clear"></div></div></div>';
+                                          			                $(this).parent().after(tpl);
+						return false;
+					    break;
+					case 1:
+					    return true;
+					    break;
+					case 2:
+					    break;
+					default:
+					    
+				}
+			}
+	    });
+		
+		$('#ajsub').live({
+			click:function(e){
+				var rels = eval('({' + $(e.target).attr('rel') + '})');
+				var tarea = $('#rmsg');
+				if(tarea.val() == ''){
+				    showErrorMsg('留言内容不能为空！', '消息提示');
+			        return false;
+			    }
+				else
+				{
+					if(mb_strlen(tarea.val()) > 1000){
+						showErrorMsg('留言内容不能超过500个汉字' , '消息提示'); 
+						return false;
+					}
+				}
+				
+				$.ajax({
+		            type: "post",
+			        url: rels.url,
+			        data: {'qid': rels.r, 'uid': rels.u, 'to': rels.t, 'tname': rels.tn, 'text': tarea.val()},
+			        success: function(res, textStatus){
+						res = eval('(' + res + ')');
+						var errCode = res.code;
+						var data = res.data;
+						
+						//错误处理
+						switch(errCode){
+						    case 0://匿名
+							    showErrorMsg('留言失败请重试！', '消息提示');
+							    break;
+							case 1:
+							    //模板
+							    var tpl = '<div class="Blog_right1_8">';
+                                tpl += '<div class="Blog_right_img1">';
+							    tpl += '<a href="' + data.fUrl + '">' + data.avatar + '</a>';
+							    tpl += '</div><br>';
+                                tpl += '<div class="Blog_right_font1">';
+                                tpl += '<p class="Blog_p5"><a href="' + data.fUrl + '"><span>' + data.fname + '</span></a>' + data.time + '</p>';
+                                tpl += '<p class="Blog_p7">' + data.qname + '：' + data.qtext+ '</p>';
+                                tpl += '<p class="Blog_p8">' + data.text + '</p>';
+							    tpl += '<span class="span_text1"><a href="#" class="Blog_a10" rel="r:' + data.id + ', u:' + data.u + ', t:' + data.from + ', tn:\'' + data.fname + '\', url:\'' + rels.url + '\'">回复</a> 　| 　<a class="comment_del_mark" style="cursor:pointer" url="/member/delreply/id/' + data.id + '">删除</a>　| 　<a href="javascript:showJuBao(\'/blog/ViewReport.html\',' + data.id + ')" class="box_report" cid="' + data.id + '">举报</a></span>';
+                                tpl += '</div><div class="Blog_line1"></div></div>';
+							    
+								//插入到页面
+					            $('#replyList > .Blog_tit3').after(tpl);
+						        $('#replyList > .Blog_right1_8 .Blog_right1_9').remove();
+                                if($('#replyList > .Blog_right1_8').size() > 5){
+                                    $('#replyList > .Blog_right1_8:last').remove();
+						        }
+								$('#tReplyNum').html(parseInt($('#tReplyNum').html()) + 1);
+						   
+						        //清空回复框
+						        tarea.val('');
+								
+							    break;
+							case 2:
+							    //showErrorMsg('请先登录！', '消息提示');
+								showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html');
+							    break;
+							case 3:
+							    showErrorMsg('缺少参数！', '消息提示');
+							    break;
+                                                        case 4:
+                                                            showErrorMsg('留言中含有违禁词，请从新编辑！', '消息提示');
+                                                            break; 
+							default:
+							    
+						}
+						
+                    },
+			        error: function(){//请求出错处理
+                        
+                    }
+		        });
+				
+			}
+		});
+		
+		$('#submitmsg').click(function(){
+			var rels = eval('({' + $(this).attr('rel') + '})');
+			var tarea = $('#reply');
+			if(tarea.val() == ''){
+				showErrorMsg('留言内容不能为空！', '消息提示');
+			    return false;
+			}
+			else
+			{
+				if(mb_strlen(tarea.val()) > 1000){
+					showErrorMsg('留言内容不能超过500个汉字' , '消息提示'); 
+					return false;
+				}
+			}
+		    $.ajax({
+		        type: "post",
+			    url: rels.url,
+			    data: {'qid': 0, 'uid': rels.u, 'to': rels.t, 'tname': rels.tn, 'text': tarea.val()},
+			    success: function(res, textStatus){
+					res = eval('(' + res + ')');
+					var errCode = res.code;
+					var data = res.data;
+					
+					//错误处理
+					switch(errCode){
+					    case 0://匿名
+						    showErrorMsg('留言失败请重试！', '消息提示');
+						    break;
+						case 1:
+						    //模板
+						    var tpl = '<div class="Blog_right1_8">';
+                            tpl += '<div class="Blog_right_img1">';
+							tpl += '<a href="' + data.fUrl + '">' + data.avatar + '</a>';
+							tpl += '</div><br>';
+                            tpl += '<div class="Blog_right_font1">';
+                            tpl += '<p class="Blog_p5"><a href="' + data.fUrl + '"><span>' + data.fname + '</span></a>' + data.time + '</p>';
+                            tpl += '<p class="Blog_p6">' + data.text+ '</p>';
+                            tpl += '<div class="div1"><a rel="r:' + data.id + ', t:' + data.from + ', tn:\'' + data.fname + '\', url:\'' + rels.url + '\'" class="Blog_a10" href="javascript:void(0);">回复</a>&#12288;| &#12288;<a class="comment_del_mark" style="cursor:pointer" url="' + data.delUrl + '">删除</a>&#12288;| &#12288;<a href="javascript:showJuBao(\'/blog/ViewReport.html\',' + data.id + ')" class="box_report" cid="' + data.id + '">举报</a></div>';
+                            tpl += '</div><div class="Blog_line1"></div></div>';
+					        
+							//插入到页面
+							$('#replyList > .Blog_tit3').after(tpl);
+						    $('#replyList > .Blog_right1_8 .Blog_right1_9').remove();
+							
+						    //去除留言列表最后一行留言
+						    if($('#replyList > .Blog_right1_8').size() > 5){
+                                $('#replyList > .Blog_right1_8:last').remove();
+						    }
+							$('#tReplyNum').html(parseInt($('#tReplyNum').html()) + 1);
+
+						    tarea.val('');
+							
+						    break;
+						case 2:
+						    //showErrorMsg('请先登录！', '消息提示');
+							showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html');
+							break;
+						case 3:
+						    showErrorMsg('缺少参数！', '消息提示');
+							break;
+                                                case 4:
+                                                    showErrorMsg('留言中含有违禁词，请从新编辑！', '消息提示');
+                                                    break; 
+						default:
+							    
+					}
+					
+                },
+			    error: function(){//请求出错处理
+                        
+                }
+		    });
+		});
+		
+		$('#canclemsg').click(function(){
+		    $('#reply').val('');
+			//$('#rerrmsg').html('您还可以输入<span>500</span>字');
+		});
+		
+		$('#ajcal').live('click', function(){
+		    $('#rform').remove();
+		});
+		
+		//加载表情
+	    $('.face').qqFace({
+		    id : 'facebox', //表情盒子的ID
+		    assign:'rmsg', //给那个控件赋值
+		    path:'/image/qqface/'	//表情存放的路径
+	    });
+		
+		//加载表情
+	    $('#face').qqFace({
+		    id : 'facebox1', //表情盒子的ID
+		    assign:'reply', //给那个控件赋值
+		    path:'/image/qqface/'	//表情存放的路径
+	    });
+		/*
+		//字数限制
+		$('#rmsg, #reply').live('keyup', function(){
+			var id = $(this).attr('id');
+			var left = Util.calWbText($(this).val(), 500);
+			var eid = '#errmsg';
+			
+			if(id == 'reply') eid =  '#rerrmsg';
+			if (left >= 0)
+		        $(eid).html('您还可以输入<span>' + left + '</span>字');
+		    else
+		        $(eid).html('<font color="red">您已超出<span>' + Math.abs(left) + '</span>字</font>');
+		});
+		*/
+
+		//删除文章确认
+		$('.del_article_id').click(function(){
+			var delurl = $(this).attr('delurl');
+			asyncbox.confirm('删除文章','确认', function(action){
+				if(action == 'ok')
+				{
+					location.href = delurl;
+				}
+			});
+		});
+		//删除留言确认
+		$('.comment_del_mark').live('click' , function(){
+			var url = $(this).attr('url');
+			asyncbox.confirm('删除留言','确认', function(action){
+				if(action == 'ok')
+				{
+					location.href = url;
+				}
+			});
+		});
+		//转载文章
+		var insert_turn_url = "/blog/viewClassPart.html";
+		$('.turn_class').click(function(){
+			if(isOnLine == '' )
+			{
+				//showErrorMsg('登录之后才能进行此操作' , '消息提示');
+				showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html');
+				return false;
+			}
+			var dobj = eval('({' + $(this).attr('rel') + '})');
+			var bid  = dobj.bid;
+			asyncbox.open({
+				id  : 'turn_class_thickbox',
+				url : insert_turn_url,
+				title : '转载文章',
+				width : 330,
+				height : 131,
+				scroll : 'no',
+				data : {
+					'id'	 : bid
+				},
+				callback : function(action){
+					if(action == 'close'){
+						$.cover(false);
+					}
+				}
+			});
+		});
+
+		/*
+		//转发事件
+	    $('.turn_class').click(function(){
+		  var dobj = eval('({' + $(this).attr('rel') + '})');
+		  var bid  = dobj.bid;
+	      var url  = dobj.url;
+	      asyncbox.confirm('转发文章','确认', function(action){
+	    	  if(action == 'ok'){
+	    	    $.ajax({
+				type:"POST",
+				url:url,	
+				data: {
+					'bid' : bid 
+				},
+				dataType: 'json',
+				success:function(msg){
+				  if(msg.error == 0){
+					showSucceedMsg('转发成功！', '消息提示');
+				  }else if(msg.error == 1){
+					//showErrorMsg(msg.error_content, '消息提示');
+					showErrorMsg('操作失败,您需要先登录!', '消息提示', '/site/login.html');
+				  }else{
+					showErrorMsg(msg.error_content, '消息提示');
+			      }
+				}
+			  });
+	    	  }
+	    	});
+	      
+        });
+		*/
+		//修改转载文章的分类
+		var turn_url = "/blog/UpdateClassView.html";
+		$('.turn_article').click(function(){
+			var id = $(this).attr('id');
+			$.cover(false);
+			asyncbox.open({
+				id  : 'update_class_thickbox',
+				title : '修改分类',
+				url : turn_url,
+				data : {'id' : id},
+				width : 330,
+				height : 131,
+				scroll : 'no',
+				callback : function(action){
+					if(action == 'close'){
+						$.cover(false);
+					}
+				}
+			});	
+
+		});		
+		/*//举报弹出层
+		$('.box_report').live('click' , function(){
+			var url = $('#report_url').val();
+			var cid = $(this).attr('cid');
+			$.cover(false);
+			asyncbox.open({
+				id  : 'report_thickbox',
+				url : url,
+				title : '举报违规',
+				width : 378,
+				height : 240,
+				scroll : 'no',
+				data : {
+					'cid' : cid,
+					'idtype' : 3
+				},
+				callback : function(action){
+					if(action == 'close'){
+						$.cover(false);
+					}
+				}
+			});
+		});*/
+    });
+
+</script>
+  <!-- footer -->
+  <div class="Blog_footer" style='clear:both'>
+    <div><a href="http://www.chinaunix.net/about/index.shtml" target="_blank" rel="nofollow">关于我们</a> | <a href="http://www.it168.com/bottomfile/it168.shtml" target="_blank" rel="nofollow">关于IT168</a> | <a href="http://www.chinaunix.net/about/connect.html" target="_blank" rel="nofollow">联系方式</a> | <a href="http://www.chinaunix.net/about/service.html" target="_blank" rel="nofollow">广告合作</a> | <a href="http://www.it168.com//bottomfile/flgw/fl.htm" target="_blank" rel="nofollow">法律声明</a> | <a href="http://sso.chinaunix.net/Register?return_url=http%3A%2F%2Fblog.chinaunix.net%2F
+" target="_blank" rel="nofollow">免费注册</a>
+      <p>Copyright  2001-2010 ChinaUnix.net All Rights Reserved 北京皓辰网域网络信息技术有限公司. 版权所有 </p>
+      <div>感谢所有关心和支持过ChinaUnix的朋友们
+        <p>京ICP证041476号 京ICP证060528号</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script language="javascript">
+
+//全局错误提示弹出框
+function showErrorMsg(content, title, url){
+	var url = url || '';
+	var title = title || '消息提示';
+	var html = '';
+	html += '<div class="HT_layer3_1 HT_layer3_2"><ul><li><p><span class="login_span1"></span>' + content + '</p></li>';
+	if(url == '' || url.length == 0){
+		html += '<li class="HT_li1"><input type="button" class="HT_btn2"  onclick=\'close_windows("error_msg")\'></li>';	
+	} else {
+		html += '<li class="HT_li1"><input type="button" class="login_btn1" onclick="location.href=\'' + url + '\'"></li>';
+	}
+	html += '</ul></div>';
+	$.cover(true);
+	   asyncbox.open({
+		 id: 'error_msg',
+		 title : title,
+		 html : html,
+		 'callback' : function(action){
+			 if(action == 'close'){
+				 $.cover(false);
+			 }
+		 }
+	});
+}
+
+//全局正确提示
+function showSucceedMsg(content, title , url ){
+	var url = url || '';
+	var title = title || '消息提示';
+	var html = '';
+	html += '<div class="HT_layer3_1 HT_layer3_2"><ul><li><p><span class="login_span2"></span>' + content + '</p></li>';
+	if(url == '' || url.length == 0){
+		html += '<li class="HT_li1"><input type="button" class="HT_btn2"  onclick=\'close_windows("error_msg")\'></li>';	
+	} else {
+		html += '<li class="HT_li1"><input type="button" class="HT_btn2" onclick="location.href=\'' + url + '\'"></li>';
+	}
+	html += '</ul></div>';
+	$.cover(true);
+	asyncbox.open({
+		 id: 'error_msg',
+		 title : title,
+		 html : html,
+		 'callback' : function(action){
+			 if(action == 'close'){
+				 $.cover(false);
+			 }
+		 }
+	});
+}
+
+//关闭指定id的窗口
+function close_windows(id){
+	$.cover(false);
+	$.close(id);
+}
+
+
+//公告
+var tID;
+var tn;                        // 高度
+var nStopTime = 5000;        // 不同行间滚动时间隔的时间，值越小，移动越快
+var nSpeed = 50;            // 滚动时，向上移动一像素间隔的时间，值越小，移动越快
+var isMove = true;
+var nHeight = 25;
+var nS = 0;
+var nNewsCount = 3;
+
+/**
+ * n 用于表示是否为第一次运行
+ **/
+function moveT(n)
+{
+    clearTimeout(tID)
+    var noticev2 = document.getElementById("noticev2")
+    nS = nSpeed;
+    
+    // 只在第一次调用时运行，初始化环境（有没有参数）
+    if (n)
+    {
+        // 设置行高
+        noticev2.style.lineHeight = nHeight + "px";
+        // 初始化显示位置
+        tn = 0;
+        // 刚进入时在第一行停止时间
+        nS = nStopTime;
+    }
+    
+    // 判断鼠标是否指向层
+    if (isMove)
+    {
+        // 向上移动一像素
+        tn--;
+        // 如果移动到最下面一行了，则移到顶行
+        if (Math.abs(tn) == nNewsCount * nHeight)
+        {
+            tn = 0;
+        }
+        // 设置位置
+        noticev2.style.marginTop = tn + "px";
+        // 完整显示一行时，停止一段时间
+        if (tn % nHeight == 0)
+        {
+            nS = nStopTime;
+        }
+    }
+
+    tID = setTimeout("moveT()", nS);
+}
+moveT(1);    // 此处可以传入任何参数
+</script>
+<script language="javascript" src="http://stat.it168.com/pv.js"></script>
+<script>
+function sendPV(){
+    var pvTrack = new PvTrack();
+    pvTrack.type = 35; // 频道类别ID
+    pvTrack.channel = 189; // 频道ID
+    pvTrack.pageType = 0;
+    pvTrack.track();
+}
+window.setTimeout("sendPV()", 1000);
+</script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20237423-2']);
+  _gaq.push(['_setDomainName', '.chinaunix.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0ee5e8cdc4d43389b3d1bfd76e83216b' type='text/javascript'%3E%3C/script%3E"));
+
+function linkto(){
+    setCookie("returnUrl", location.href, 1466495761, "/");
+}
+function linktoOut(){
+    setCookie("returnOutUrl", location.href, 1466495761, "/");
+}
+//JS写COOKIE
+function setCookie(name, value, expires, path, domain){
+	if(!arguments[2]) expires = 3600 * 24;
+	if(!arguments[3]) path = "";
+	if(!arguments[4]) domain = "";
+	var str=name+"="+escape(value);
+	if(expires!=""){
+		var date=new Date();
+		date.setTime(date.getTime()+expires*1000);
+		str+=";expires="+date.toGMTString();
+	}
+	if(path!=""){
+		str+=";path="+path;//指定可访问cookie的目录
+	}
+	if(domain!=""){
+		str+=";domain="+domain;//指定可访问cookie的域
+	}
+	document.cookie = str;
+}
+
+</script>
+</body>
+</html>

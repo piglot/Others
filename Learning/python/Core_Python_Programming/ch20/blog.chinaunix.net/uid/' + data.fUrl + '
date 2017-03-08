@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>错误提示信息 -  ChinaUnix博客</title>
+<link href="/css/default/styleHT.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<style>
+.classify_right1_2 {
+    border: 1px solid #CFE2EF;
+    margin-top: 10px;
+    overflow: hidden;
+}
+.classify_tit3 {
+	background-color:#F3F7FA;
+    color: #1566B1;
+    font-size: 14px;
+    font-weight: bold;
+    height: 31px;
+    line-height: 31px;
+    padding-left: 17px;
+}
+
+.classify_ul3 {
+    background: none repeat scroll 0 0 #FAFDFF;
+}
+.classify_ul3 li {
+    height: 34px;
+    line-height: 34px;
+    margin: 0 auto;
+    width: 350px;
+}
+.classify_ul3 li div {
+    height: 100%;
+}
+.classify_ul3 li span.span_bg2 {
+    background-position: -763px -73px;
+    display: inline-block;
+    height: 2px;
+    margin: 0 5px 0 11px;
+    vertical-align: middle;
+    width: 2px;
+}
+.classify_ul3 li a {
+    color: #1566B1;
+}
+.classify_ul3 li p {
+    background-position: -8px -268px;
+    height: 1px;
+    overflow: hidden;
+}
+</style>
+<div class="box">
+  <!-- 一级导航 -->
+  <div class="Blog_nav1">
+    <div class="Blog_nav1_2"><a href="/"><img src="/image/default/1.png"></a><a href="/" class="Blog_a1">Chinaunix首页</a>　| 　<a href="http://bbs.chinaunix.net" target="_blank">论坛</a>　| 　<a href="http://blog.chinaunix.net" target="_blank">博客</a><span class="Blog_span1"></span>
+            <a href="/site/login.html" class="Blog_a1">登录</a> | <a href="http://sso.it168.com" class="Blog_a1">注册</a>
+          </div>
+    <div class="Blog_nav1_3">
+      <input type="text" class="Blog_txt1">
+      <select class="Bolg_sel1">
+        <option>博文</option>
+      </select>
+      <input type="button" class="Blog_btn1">
+    </div>
+    <div class="clear"></div>
+    <div class="Blog_nav1_layer1" id="message_slide_div" style="display:none;">
+      <ul>
+        <li><a href="/message/private.html">私人消息</a></li>
+        <li><a href="/message/system.html">系统消息</a></li>
+        <li><a href="/member/request.html">好友请求</a></li>
+        <li><a href="/member/notification.html">通知管理</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- 头 -->
+  <div class="Blog_header1 landing_con1">
+    <div style="padding: 85px 0 0 20px;line-height: 31px;height: 31px;"><a href="/uid/.html" class="Blog_here1">首页</a>　| 　<a href="/uid/0/abstract/1.html">博文目录</a>　| 　<a href="/member/profile.html">关于我</a></div>
+  </div>
+  <!-- 内容部分 -->
+  <div class="Blog_contain">
+    <!-- 登陆页面 -->
+    <div class="Blog_right1_1">
+      <!-- 错误 -->
+      <div class="HT_con13">
+        <div class="HT_con13_1"></div>
+        <div class="HT_con13_con1"> <span class="span_tou1"></span>Error:404 错误！                    <p><a href="javascript:history.back();">返回上一页</a>&nbsp;&nbsp;&nbsp;<a href="/">返回首页</a></p>
+                  </div>
+        <div class="HT_con13_2"></div>
+        <p style="margin-top:30px;">
+        <ul style="width:100%; height:320px">
+          <li style="width:375px; float:left">
+            <div class="classify_right1_2">
+              <div class="classify_tit3">一周热评博文<span style="float:right;margin-right:5px"><a href="/ranklist/article/type/weekreply.html" style="color:#1566B1">更多&gt;&gt;</a></span></div>
+              <ul class="classify_ul3">
+                                <li style="border-bottom:dashed 1px #CCC">
+                  <div><span class="span_bg2"></span><a href="/uid-31008720-id-5745926.html" target="_blank" title="Linux NFS服务器搭建">Linux NFS服务器搭建</a></div>
+                  <p></p>
+                </li>
+                                <li style="border-bottom:dashed 1px #CCC">
+                  <div><span class="span_bg2"></span><a href="/uid-31008720-id-5745934.html" target="_blank" title="Linux Samba服务器搭建">Linux Samba服务器搭建</a></div>
+                  <p></p>
+                </li>
+                                <li style="border-bottom:dashed 1px #CCC">
+                  <div><span class="span_bg2"></span><a href="/uid-25944391-id-5745936.html" target="_blank" title="Linux curl命令参数详解">Linux curl命令参数详解</a></div>
+                  <p></p>
+                </li>
+                              </ul>
+            </div>
+          </li>
+          <li style="width:375px; float:right">
+            <div class="classify_right1_2">
+              <div class="classify_tit3">一周热点博文<span style="float:right; margin-right:5px"><a href="/ranklist/article/type/weekview.html" style="color:#1566B1">更多&gt;&gt;</a></span></div>
+              <ul class="classify_ul3">
+                                <li style="border-bottom:dashed 1px #CCC">
+                  <div><span class="span_bg2"></span><a href="/uid-31008720-id-5745934.html" target="_blank" title="Linux Samba服务器搭建">Linux Samba服务器搭建</a></div>
+                  <p></p>
+                </li>
+                                <li style="border-bottom:dashed 1px #CCC">
+                  <div><span class="span_bg2"></span><a href="/uid-25944391-id-5745936.html" target="_blank" title="Linux curl命令参数详解">Linux curl命令参数详解</a></div>
+                  <p></p>
+                </li>
+                                <li style="border-bottom:dashed 1px #CCC">
+                  <div><span class="span_bg2"></span><a href="/uid-31008720-id-5745926.html" target="_blank" title="Linux NFS服务器搭建">Linux NFS服务器搭建</a></div>
+                  <p></p>
+                </li>
+                              </ul>
+            </div>
+          </li>
+        </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- footer -->
+  <div class="Blog_footer">
+    <div><a href="http://www.chinaunix.net/about/index.shtml" target="_blank">关于我们</a> | <a href="http://www.it168.com/bottomfile/it168.shtml" target="_blank">关于IT168</a> | <a href="http://www.chinaunix.net/about/connect.html" target="_blank">联系方式</a> | <a href="http://www.chinaunix.net/about/service.html" target="_blank">广告合作</a> | <a href="http://www.it168.com//bottomfile/flgw/fl.htm" target="_blank">法律声明</a> | <a href="http://sso.chinaunix.net/Register?return_url=http%3A%2F%2Fblog.chinaunix.net%2F
+" target="_blank">免费注册</a>
+      <p>Copyright  2001-2010 ChinaUnix.net All Rights Reserved 北京皓辰网域网络信息技术有限公司. 版权所有 </p>
+      <div>感谢所有关心和支持过ChinaUnix的朋友们
+        <p>京ICP证041476号 京ICP证060528号</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

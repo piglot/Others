@@ -1,0 +1,19 @@
+IO Module-A0
+False
+
+IO Module-A1
+False
+
+SPA Onboard
+True
+Oberon
+IO Module-B0
+False
+
+IO Module-B1
+False
+
+SPB Onboard
+True
+Oberon
+

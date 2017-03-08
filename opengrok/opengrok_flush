@@ -1,0 +1,85 @@
+#!/bin/bash
+
+log_cmd ()
+{
+  echo "Executing : $@"
+
+  "$@" 2>&1 |
+  while read line ; do
+    echo "            $line"
+  done
+
+  local rc=${PIPESTATUS[0]}
+
+  return $rc
+}
+
+export PATH=/home/c4dev/.autojump/bin:/var/lib/ccache/bin:/c4shares/auto/tools/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games:/opt/accurev/bin:/opt/CmTools/shbin:/re/bin:/re/thirdparty_tools/java/tags/linux/Production/bin:/opt/pegasus/bin:/re/thirdparty_tools/ant/tags/Production/bin:/c4shares/auto/devutils/bin:/home/c4dev/myscripts/
+TARGET_MACHINE="10.37.11.253"
+TARGET_MACHINE_PASSWORD="allenopengrok"
+STREAM_NAME=$1
+WORK_SPACE_NAME="og_"$STREAM_NAME
+WORK_SPACE=/var/opengrok/src/$WORK_SPACE_NAME
+CODE_PREFIX=$STREAM_NAME
+ERROR_CODE=0
+
+SSHPASS=/usr/bin/sshpass
+SSH=/usr/bin/ssh
+SCP=/usr/bin/scp
+RSYNC=/usr/bin/rsync
+WS=/c4shares/auto/devutils/bin/ws
+TAR=/bin/tar
+MV=/bin/mv
+RM=/bin/rm
+DATE=/bin/date
+ECHO=/bin/echo
+LS=/bin/ls
+MAILTO=/usr/bin/mailto
+
+timestamp=`$DATE -d "today" +"%Y%m%d_%H%M%S"`
+
+# Update workspace and the move thirdparty out of source code.
+$ECHO "[`$DATE`] Updating workspace..."
+cd $WORK_SPACE
+$WS update --head --noprepare 
+[ $? -eq 0 ] || ERROR_CODE=1
+
+# No need to index thirdparty code, so remove it.
+$ECHO "[`$DATE`] Removing thirdparty..."
+cd $WORK_SPACE
+$RM thirdparty -rf
+
+# Remove old archive and package updated source code.
+$ECHO "[`$DATE`] Packaging source code..."
+cd $WORK_SPACE/../
+$RM -f $CODE_PREFIX*.tgz
+$TAR -zcf $CODE_PREFIX.tgz $WORK_SPACE_NAME
+$MV $CODE_PREFIX.tgz $CODE_PREFIX$timestamp.tgz
+
+# Send new tgz file to target machine.
+$ECHO "[`$DATE`] Sending archive tgz file..."
+#$SSHPASS -p "$TARGET_MACHINE_PASSWORD" $SCP $CODE_PREFIX$timestamp.tgz root@$TARGET_MACHINE:/var/opengrok/src
+$SSHPASS -p "$TARGET_MACHINE_PASSWORD" $RSYNC -avW -e ssh $CODE_PREFIX$timestamp.tgz root@$TARGET_MACHINE:/var/opengrok/src
+[ $? -eq 0 ] || ERROR_CODE=2
+
+# Unpackage tgz file and reindex OpenGrok.
+$ECHO "[`$DATE`] Unpacking and indexing..."
+$SSHPASS -p "$TARGET_MACHINE_PASSWORD" $SSH root@$TARGET_MACHINE "cd /var/opengrok/src; pwd; tar xmf $CODE_PREFIX$timestamp.tgz; ls; rm $CODE_PREFIX$timestamp.tgz -f; ls; mv $WORK_SPACE_NAME $CODE_PREFIX"_"$timestamp; ls; /root/opengrok-0.12.1/bin/OpenGrok index;"
+[ $? -eq 0 ] || ERROR_CODE=3
+
+# Remove old version.
+$ECHO "[`$DATE`] Removing old version..."
+$SSHPASS -p "$TARGET_MACHINE_PASSWORD" $SSH root@$TARGET_MACHINE "/root/opengrok-0.11.1/bin/keep_project_atmost $CODE_PREFIX 1"
+[ $? -eq 0 ] || ERROR_CODE=4
+
+# Delete logfiles which are old than 3 days.
+for log_file in `find /var/log/opengrok -mtime +3`
+do
+    log_cmd rm -f "$log_file"
+done
+
+# Update finish.
+$ECHO "[`$DATE`] Update finished, error code: $ERROR_CODE"
+[ $ERROR_CODE -eq 0 ] || $ECHO "Error code: $ERROR_CODE [$CODE_PREFIX]" | sudo $MAILTO -s "Opengrok task error occured" Ming.Yao@emc.com
+
+exit 0

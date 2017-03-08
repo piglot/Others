@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DATE=/bin/date
+BASH=/bin/bash
+
+timestamp=`$DATE -d "today" +"%Y%m%d_%H%M%S"`
+
+#stream=$1
+for stream in unityPlatform nextunityPlatform khplus bearcat unityint apollo rockies kittyhawk nextUnity
+do 
+    logfile=/var/log/opengrok/$timestamp"_"$stream.log
+    $BASH /home/c4dev/opengrok/opengrok_flush $stream > $logfile 2>&1
+    #$BASH /home/c4dev/opengrok/opengrok_flush $stream
+done

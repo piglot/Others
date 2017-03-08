@@ -5,8 +5,8 @@ import xlsxwriter
 def ping(ip):
     return os.popen('ping -c 1 -W 2 ' + ip + ' >/dev/null 2>&1 && echo "available" || echo "failed"').readline()[:-1]
 
-def format_data(data):
-    return [item[:-1].split(',') for item in data]
+def format_data(text):
+    return [line.strip().split(',') for line in text]
 
 def get_info(data, array):
     print "*"*75
@@ -21,7 +21,7 @@ def get_info(data, array):
         
     #if array in swarm, get ip and check ping status of SPA SPB
     if FLAG == 0:
-        ip_spa, ip_spb = [item[:-1] for item in ip_list]
+        ip_spa, ip_spb = [item.strip() for item in ip_list]
         ping_spa = ping(ip_spa)
         ping_spb = ping(ip_spb)
         if ping_spa == 'available' and ping_spb == 'available':
@@ -295,24 +295,28 @@ def save_to_excel(data, file_name, sheet_name):
         row += n
 
 def arg_parser():
-    parser = argparse.ArgumentParser(add_help=True,description='Get array configuration information, save to excel and send out as email attachements.')
-    parser.add_argument('-f',dest='File',default=[],required=True,help="provide a file with an array name in each line. For example: OB-H1073")
-    parser.add_argument('-e',dest='Email',required=True,help="provide an email address to receive excel document")
+    parser = argparse.ArgumentParser(add_help=True,description='Get array configuration information, save to excel and send email.')
+    parser.add_argument(dest='Pool',help="Pool is a file with each line an arrayname.")
+    parser.add_argument(dest='Email',help="Email address to receive")
     return parser.parse_args()
     
 def main():
     args = arg_parser()
+    Excel_file = args.Pool.split('.')[0] + '.xlsx'
+
     print "*"*75
-    print "file:\t%s" % args.File
-    print "email:\t%s" % args.Email
+    print "Pool file\t%s" % args.Pool
+    print "Email address:\t%s" % args.Email
+    print "Output file:\t%s" % Excel_file 
+
     data = dict()
-    f = open(args.File)
+    f = open(args.Pool)
     for line in f:
         array = line.strip('\n')
         get_info(data, array)
     print "*"*75
-    save_to_excel(data, 'array_configuration.xlsx', 'array_configuration')
-    os.popen('echo ""|mail -s "Array configuration info" -a array_configuration.xlsx ' + args.Email)
+    save_to_excel(data, Excel_file, 'array_configuration')
+    os.popen('echo ""|mail -s "Array configuration info" -a '+ Excel_file + ' ' + args.Email)
     print "END"
 
 if __name__ == "__main__":

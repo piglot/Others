@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+<head>
+<title>IT技术热门文章排行榜_ChinaUnix博客</title>
+<meta name="description" content="ChinaUnix博客每天千篇余篇博文新资讯，40多万活跃博主，为IT技术人提供最全面的IT资讯和交流互动的IT博客平台-中国最专业的IT技术ChinaUnix博客。"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta property="wb:webmaster" content="31e73aee60da45c8" />
+<link href="/css/site/style.css" rel="stylesheet" />
+<script type='text/javascript' src='http://168.it168.com/a/h600.js'></script>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+if(/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))){
+	try{
+		if(!/iPad/i.test(navigator.userAgent)){
+			var oldurl=window.location.href;
+			var wapUrl= oldurl.replace('blog.chinaunix.net', "m.blog.chinaunix.net") ;
+			window.location.href = wapUrl;
+		}
+	}catch(e){}
+}
+</script>
+
+</head>
+
+<body>
+<div class="nav_con1">
+  <div class="nav_con1_1"><span><a href="http://www.chinaunix.net">ChinaUnix首页</a> | <a href="http://linux.chinaunix.net/">Linux</a> | <a href="http://u.it168.com/vip/"><font color="red">认证专区</font></a> | <a href="http://www.it168.com/itclub/ ">沙龙</a> | <a href="http://news.chinaunix.net/">新闻</a> | <a href="http://bbs.chinaunix.net/">论坛</a> | <a href="http://selftest.chinaunix.net/">自测</a> | <a href="http://blog.chinaunix.net/">博客</a> | <a href="http://blog.chinaunix.net/space.php?do=home">空间</a></span> 
+  <script src="/site/loginstatusbar.html"></script>
+  </div>
+</div>
+<div class="box">
+  <div class="ad_con1">
+    <div class="ad_con1_1" id='ADV_17325'><script>LG('ADV_17325')</script></div>
+    <div class="ad_con1_2" id='ADV_17326'><script>LG('ADV_17326')</script></div>
+    <div class="clear"></div>
+  </div>
+  <div class="nav_con2">
+    <div class="nav_con2_1"><a href="/"></a></div>
+    <div class="nav_con2_2"><a href="/">博客首页</a><a href="/site/expert.html">博客专家</a><a href="/site/commendago.html">往日推荐</a><a href="/ranklist/article.html">排行榜</a><a href="/site/topic.html" class="a1">专题荟萃</a><a href="/special/list.html" class="a1">博客文集</a></div>
+    <div class="clear"></div>
+  </div>
+   <style>
+  .nav_con3 span .txt1{ float:left; margin:12px 0 0 0;}
+  .nav_con3 span{*margin-top:0;}
+  .bor13221{border:1px #bbb solid;width:206px;position:absolute;top:29px;left:0;background:#fff; z-index:9999;display:none}
+  .bor13221 li{height:26px;line-height:26px;padding-left:6px;color:#555;font-size:14px;cursor:pointer;}
+  .here{background:#f3f3f3;}
+  </style>
+  <div class="nav_con3"><span style="position:relative; z-index:9999;">
+  <!--提示层 -->
+	 <div class="bor13221">
+	  <ul>
+	  </ul>
+	</div>
+ <!--提示层 -->
+  <form action='/site/search.html' method='post'>
+    <input type="text" autocomplete="off" id='search_input_id' class="txt1"   name='keywords' />
+    <select class="sel1" name='type' id='search_type_blog' style="float:left;margin:12px 0 0 4px;">
+      <option value='blog'>博文</option>
+	  <option value='author'>博主</option>
+    </select>
+    <input type="submit" value='' name='submit' class="btn1" style="float:left;margin:12px 0 0 4px;">
+ </form>
+    </span>热搜：
+    		            <a href="/site/search/keywords/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/type/blog.html" target="_blank">网络安全</a>
+                    <a href="/site/search/keywords/cISCO/type/blog.html" target="_blank">cISCO</a>
+                    <a href="/site/search/keywords/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/type/blog.html" target="_blank">系统运维</a>
+                    <a href="/site/search/keywords/%E6%9C%8D%E5%8A%A1%E5%99%A8/type/blog.html" target="_blank">服务器</a>
+                    <a href="/site/search/keywords/C%2B%2B/type/blog.html" target="_blank">C++</a>
+                    <a href="/site/search/keywords/LINUX/type/blog.html" target="_blank">LINUX</a>
+                    <a href="/site/search/keywords/ubuntu/type/blog.html" target="_blank">ubuntu</a>
+                    <a href="/site/search/keywords/Hyper-V/type/blog.html" target="_blank">Hyper-V</a>
+             </div>
+   <script type="text/javascript">
+	$(function(){
+		//点击添加进文本框
+		$(".bor13221 li").live( 'click' , function(e){
+			if ( e && e.stopPropagation )
+			{
+				//因此它支持W3C的stopPropagation()方法
+				e.stopPropagation();
+			}
+			else
+			{
+				//否则，我们需要使用IE的方式来取消事件冒泡
+				window.event.cancelBubble = true; 
+			}
+			$('#search_input_id').val($(this).text());
+			$(".bor13221 ul").html('');
+			$(".bor13221").hide();
+		});
+		$(".bor13221 ul li").live({
+			mouseenter:
+			function()
+			{
+				$(".bor13221 ul li").removeClass("here");
+				$(this).addClass('here');
+			},
+			mouseleave:
+			function()
+			{
+				$(".bor13221 ul li").removeClass("here");
+				$(this).removeClass('here');
+			}
+		});
+		//自动提示
+		$('#search_input_id').keyup(function(event){
+			//取消博主的提示
+			var search_type_blog = $('#search_type_blog').val();
+			if(search_type_blog == 'author') return false;
+
+			var key = $(this).val();
+			//获取键值
+			var keycode = event.which; //38 上 40 下
+			var count = $('.bor13221 ul li').length;
+			if(key != '' && keycode != 38 && keycode != 40)
+			{
+				$.getJSON("http://api.sou.it168.com/autoWenKuCloud?jsoncallback=?",{"ty":"json","offset":"0","limit":"10","q":key}, function(result)
+					{
+						var arr = result.data;
+
+						var html ='';
+						for (i=0;i<arr.length ;i++ )   
+						{   
+							html += '<li>'+arr[i]+'</li>';
+						} 
+						
+						$('.bor13221 ul').html(html);
+						(arr.length > 1) ?  $(".bor13221").show() : $(".bor13221").hide();
+					}
+				);
+			}
+			else if(keycode == 38)
+			{
+				if(count > 0)
+				{
+					//遍历li
+					var curr_li_num;
+					$('.bor13221 ul li').each(function(index , dom){
+						if($(dom).attr('class') == 'here')
+						{
+							curr_li_num = index;
+							return false;
+						}
+					}); 
+					var next_li_num;
+					if(typeof(curr_li_num) == 'undefined')
+					{
+						next_li_num = count - 1;
+					}
+					else
+					{
+						if(curr_li_num == 0)
+						{
+							next_li_num = count - 1;
+						}
+						else
+						{
+							next_li_num = curr_li_num - 1;
+						}
+					}
+					$(".bor13221 ul li").removeClass("here");
+					$(".bor13221 ul li:eq(" + next_li_num + ")").addClass("here");
+					$('#search_input_id').val($(".bor13221 ul li:eq(" + next_li_num + ")").text());
+				}
+			}
+			else if(keycode == 40)
+			{
+				if(count > 0)
+				{
+					//遍历li
+					var curr_li_num;
+					$('.bor13221 ul li').each(function(index , dom){
+						if($(dom).attr('class') == 'here')
+						{
+							curr_li_num = index;
+							return false;
+						}
+					}); 
+					var next_li_num;
+					if(typeof(curr_li_num) == 'undefined')
+					{
+						next_li_num = 0;
+					}
+					else
+					{
+						if(curr_li_num == count - 1)
+						{
+							next_li_num = 0;
+						}
+						else
+						{
+							next_li_num = curr_li_num + 1;
+						}
+					}
+					$(".bor13221 ul li").removeClass("here");
+					$(".bor13221 ul li:eq(" + next_li_num + ")").addClass("here");
+					$('#search_input_id').val($(".bor13221 ul li:eq(" + next_li_num + ")").text());
+				}
+			}
+		});
+		$(document).click(function(e){
+			$(".bor13221").hide();
+		});
+
+	});
+  </script>
+  <!-- 内容部分 -->
+  	
+<div class="nav_con4">
+博客首页 〉 博文排行榜 〉 
+阅读周排行TOP50
+</div>
+<div class="top_contain1">
+  <div class="top_left1">
+    <div class="top_left1_1">
+      <div class="top_tit1">博文排行榜</div>
+      <ul>
+        <li><span class="span_bg3"></span><a href="/ranklist/article/type/weekview.html">阅读周排行TOP50</a>
+          <div></div>
+        </li>
+        <li><span class="span_bg3"></span><a href="/ranklist/article/type/weekreply.html">评论周排行TOP50</a>
+          <div></div>
+        </li>
+        <li><span class="span_bg3"></span><a href="/ranklist/article/type/monthview.html">阅读月排行TOP50</a>
+          <div></div>
+        </li>
+        <li><span class="span_bg3"></span><a href="/ranklist/article/type/monthreply.html">评论月排行TOP50</a></li>
+      </ul>
+    </div>
+    <div class="top_left1_1 mt10">
+      <div class="top_tit1">博客排行榜</div>
+      <ul>
+        <li><span class="span_bg3"></span><a href="/ranklist/blog/type/week.html">阅读周排行TOP50</a>
+          <div></div>
+        </li>
+        <li><span class="span_bg3"></span><a href="/ranklist/blog/type/month.html">评论月排行TOP50</a></li>
+      </ul>
+    </div>
+    <div class="top_left1_1 mt10">
+      <div class="top_tit1">推荐博客</div>
+      <ul>
+        <li><span class="span_bg3"></span><a href="/ranklist/commendblog.html">评论月排行TOP50</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="top_right1">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="top_table1">
+      <tr>
+        <th width="8%">名次</th>
+        <th width="74%" class="left">文章标题</th>
+        <th width="7%">作者</th>
+                <th width="11%">周阅读数</th>
+                
+      </tr>
+                  <tr>
+        <td class="center">1</td>
+        <td><span>【<a href="/site/sysclass/id/6.html">LINUX</a>】</span><a href="/uid-31008720-id-5745934.html" target="_blank">Linux Samba服务器搭建</a></td>
+        <td class="center"><a href="/uid/31008720.html">eaststrong</a></td>
+                <td class="center">1980</td>
+              </tr>
+            <tr>
+        <td class="center">2</td>
+        <td><span>【<a href="/site/sysclass/id/41.html">系统运维</a>】</span><a href="/uid-25944391-id-5745936.html" target="_blank">Linux curl命令参数详解</a></td>
+        <td class="center"><a href="/uid/25944391.html">liubonan</a></td>
+                <td class="center">1890</td>
+              </tr>
+            <tr>
+        <td class="center">3</td>
+        <td><span>【<a href="/site/sysclass/id/6.html">LINUX</a>】</span><a href="/uid-31008720-id-5745926.html" target="_blank">Linux NFS服务器搭建</a></td>
+        <td class="center"><a href="/uid/31008720.html">eaststrong</a></td>
+                <td class="center">1620</td>
+              </tr>
+                </table>
+  </div>
+  <div class="clear"></div>
+</div>
+  
+      
+  <!-- footer -->
+  <div class="footer">
+    <p class="p"> <a target="_blank" href="http://www.it168.com/bottomfile/about.shtml" rel="nofollow">盛拓传媒简介</a> | <a target="_blank" href="http://www.it168.com/bottomfile/it168.shtml" rel="nofollow">关于IT168</a> | <a target="_blank" href="http://www.it168.com/bottomfile/hzhb.shtml">合作伙伴</a> | <a target="_blank" href="http://www.it168.com/bottomfile/ggfw.shtml" rel="nofollow">广告服务</a> | <a target="_blank" href="http://www.it168.com/bottomfile/sytk.shtml" rel="nofollow">使用条款</a> | <a target="_blank" href="http://www.it168.com/bottomfile/tgzn.shtml" rel="nofollow">投稿指南</a> | <a target="_blank" href="http://www.wintalent.cn:8031/wt5/sequelmedia/web/index" rel="nofollow">诚聘精英</a> | <a target="_blank" href="http://www.it168.com/bottomfile/lxwm.shtml" rel="nofollow">联系我们</a> | <a target="_blank" href="http://www.it168.com//bottomfile/flgw/fl.htm" rel="nofollow">法律声明</a> | <a target="_blank" href="http://www.it168.com/bottomfile/sitemap/sitemap.html" rel="nofollow">网站导航</a> | <a target="_blank" href="http://archive.it168.com/" rel="nofollow">往日回顾</a></p>
+    <p class="p1">北京皓辰网域网络信息技术有限公司. 版权所有 京ICP证:060528号 北京市公安局海淀分局网监中心备案编号：1101082001<br>
+      广播电视节目制作经营许可证(京) 字第1234号 中国互联网协会会员 </p>
+    <div class="pic_div"><a href="http://ulic.baidu.com/client/clientDetailCerInfo.do?id=1602" class="pic3"></a><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202008062400006" class="pic2"></a><a href="http://www.bj.cyberpolice.cn/index.jsp" class="pic1">网络110 报警服务</a> </div>
+  </div>
+</div>
+ <script>if(typeof(BLA)!='undefined'){BLA();}</script>
+<script language="javascript" src="http://stat.it168.com/pv.js"></script>
+<script>
+function sendPV(){
+    var pvTrack = new PvTrack();
+    pvTrack.type = 35; // 频道类别ID
+    pvTrack.channel = 189; // 频道ID
+    pvTrack.pageType = 0;
+    pvTrack.track();
+}
+window.setTimeout("sendPV()", 1000);
+</script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20237423-2']);
+  _gaq.push(['_setDomainName', '.chinaunix.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0ee5e8cdc4d43389b3d1bfd76e83216b' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</body>
+</html>
